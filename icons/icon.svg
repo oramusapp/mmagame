@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#0d0f14"/>
+  <polygon points="168,56 344,56 456,168 456,344 344,456 168,456 56,344 56,168" fill="#e63946"/>
+  <polygon points="186,98 326,98 414,186 414,326 326,414 186,414 98,326 98,186" fill="#0d0f14"/>
+  <text x="256" y="250" text-anchor="middle" font-family="Impact, 'Arial Narrow', sans-serif" font-size="118" font-weight="900" fill="#f4c430">FIGHT</text>
+  <text x="256" y="360" text-anchor="middle" font-family="Impact, 'Arial Narrow', sans-serif" font-size="118" font-weight="900" fill="#ffffff">CAMP</text>
+</svg>
