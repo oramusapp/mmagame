@@ -1,37 +1,47 @@
-# 🥊 FIGHT CAMP – MMA Game
+# SDCA · thenotoriousg
 
-Twój tygodniowy plan treningowy MMA jako gra. Zadania, dziennik treningu, rywal tygodnia do znokautowania, XP, pasy, odznaki i sklep z nagrodami.
+Aplikacja webowa do prowadzenia systemu wyceny **SDCA** opartego na Z-score wskaźników. Działa na wzór arkusza **„SDCA v2”** z pliku `thenotoriousg - SDCA - aktualny do pracy.xlsx`. Pozostałe arkusze uzupełniają opisy wskaźników, ich historię i bazę linków. **„Submission Checklist”** jest osobną zakładką.
 
-Aplikacja jest w 100% statyczna (HTML + CSS + JS, bez builda i bez backendu). Dane trzyma w przeglądarce (`localStorage`), działa offline i można ją zainstalować na telefonie jako aplikację (PWA).
+Aplikacja jest w pełni statyczna (HTML + CSS + JS, bez builda i bez backendu). Działa offline i można ją zainstalować jako PWA.
 
-## Jak uruchomić
+## Funkcje
 
-- **Lokalnie:** w katalogu repo `python3 -m http.server 8000`, potem otwórz `http://localhost:8000`.
-- **GitHub Pages:** *Settings → Pages → Build and deployment → Deploy from a branch → `main` / `(root)`*. Aplikacja będzie pod `https://<użytkownik>.github.io/mmagame/`.
-- **Na telefonie:** otwórz stronę i wybierz „Dodaj do ekranu głównego”.
+- **Logowanie hasłem przy każdym wejściu.** Hasła nie ma w kodzie. Dane z Excela są zaszyfrowane (`seed.enc.js`, PBKDF2-SHA256 + AES-GCM 256) i odszyfrowują się dopiero po wpisaniu poprawnego hasła. Twoje zmiany zapisują się w przeglądarce, też zaszyfrowane.
+- **SDCA:** tabele Fundamental / Technical / Sentiment z kolumnami jak w arkuszu (Indicator, Result, Z Score, Provided by, Source oraz opisy Why / How / Positive & Negative Score).
+  - Edycja Z-score: wpisanie wartości albo przyciski − / +.
+  - Dodawanie, usuwanie i zmiana kolejności wskaźników.
+  - **Avg Z Score**, **Market Value Z-score** (× −1), liczniki wymagań (15 / 5 / 5 / 2, Adam ≤ 5).
+  - „Date updated”, eksport do CSV.
+- **System wyceny (formuła z Excela):**
+  `=IFS(Z<=-1.5,"No Value", AND(Z<0,Z>-1.5),"Low Value", Z=0,"Neutral", AND(0<Z,Z<1.5),"Value", Z>=1.5,"High Value")`
+- **Wykres i aktualizacje (Forward Testing):** zapis bieżącego stanu jako aktualizacji, wykres Market Value Z-score / Avg Z w czasie, edycja, dodawanie ręczne i usuwanie wpisów z listy aktualizacji.
+- **Baza linków:** wszystkie strony ze wskaźnikami i materiały z arkuszy. Wyszukiwarka, kategorie, lista szybkiego otwierania, dodawanie, edycja i usuwanie. Przy wskaźniku można wybrać źródło z tej listy.
+- **Baza wskaźników:** wszystkie wskaźniki ze wszystkich arkuszy, z opisami i historią Z-score. Wskaźnik dodajesz do SDCA lub usuwasz z niego jednym kliknięciem.
+- **Checklista** (Submission Checklist): statusy Complete / Agree i SUBMISSION STATUS (READY / NOT READY) liczony tak jak w Excelu, plus automatyczne podpowiedzi z danych.
+- **Ustawienia:** motyw jasny / ciemny, eksport i import JSON, przywrócenie danych z Excela, blokada.
 
-## Mechanika gry
+## Uruchomienie
 
-| Element | Jak działa |
-|---|---|
-| 📋 **Karta walki** | Codzienny plan z arkusza (MMA pn/śr/pt, Siła A wt, Siła B czw, sprinty + kickboxing sob, niedziela odpoczynek i kościół). Odhaczasz punkty i dostajesz XP. |
-| ⭐ **Main Event** | Priorytety: trening MMA i praca w domu (TRW) do 19:00. Dają więcej XP i odblokowują Torbę Trenera. |
-| 🔥 **Warm-up Protocol** | Interaktywna checklista: przeskoki dostawne, stepy + rotacja bioder, naprzemiennie nogi, walka z cieniem, drabinka, Beterbiev pushups (+ mobility przed i po). |
-| 🥊 **Rywal tygodnia** | Co tydzień nowy komiczny przeciwnik (Kanapa Kowalski, Scrollator 3000, Pizza Pete…). Każdy punkt XP to cios. KO przed końcem niedzieli = wygrana w rekordzie, inaczej porażka. |
-| 🔥 **Seria i combo** | Aktywność dzień po dniu podbija mnożnik XP (do x1.5). |
-| 🎒 **Torba Trenera** | Losowa nagroda za perfekcyjny dzień (monety, XP, jackpot albo rzadki awatar). |
-| ✅ **Zadania** | Dodawanie, kategorie, termin, priorytet (Main Event), odhaczanie, edycja. Odznaczenie cofa XP. |
-| 📓 **Dziennik** | Trening z serią × powtórzenia × kg (lista ćwiczeń z planu wczytuje się sama), RPE, samopoczucie, notatki. Podpowiedź „ostatnio”, wykrywanie rekordów (PR = bonus XP), wykres progresu, mapa aktywności z 12 tygodni. |
-| ⏱️ **Zegar rund** | Timer MMA/boks/tabata z gongiem i sygnałem 10 s przed końcem rundy. Każda runda daje XP. |
-| 🥋 **Zawodnik** | Karta zawodnika z OVR i statystykami (Siła, Kondycja, Technika, Dyscyplina), pasy od Świeżaka do GOAT, historia walk, ważenie. |
-| 🛍️ **Sklep** | Monety wydajesz na awatary, tytuły i **własne nagrody z prawdziwego życia** (np. cheat meal). |
-| 📜 **Kodeks** | Twoje zasady. Codziennie jedna z nich pokazuje się na Arenie. |
+- **GitHub Pages:** *Settings → Pages → Deploy from a branch → `main` / `(root)`*. Szyfrowanie wymaga HTTPS, a Pages je zapewnia.
+- **Lokalnie:** `python3 -m http.server 8000`, potem `http://localhost:8000`.
 
-Plan tygodnia, listy ćwiczeń i zasady można edytować w aplikacji (Zawodnik → ⚙️). Dane można wyeksportować do pliku JSON i zaimportować na innym urządzeniu.
+## Aktualizacja danych z nowego pliku Excel
+
+```bash
+python3 -I tools/xlsx_to_seed.py "plik.xlsx" tools/seed.json
+SDCA_PASSWORD='…' node tools/encrypt_seed.mjs tools/seed.json seed.enc.js
+rm tools/seed.json   # niezaszyfrowanej wersji nie commituj
+```
+
+Nowe dane startowe są używane przy pierwszym wejściu albo po „Przywróć dane z Excela” w Ustawieniach.
 
 ## Pliki
 
-- `index.html` – szkielet aplikacji
-- `style.css` – wygląd
-- `app.js` – cała logika gry
-- `sw.js`, `manifest.webmanifest`, `icons/` – tryb offline i instalacja jako aplikacja
+- `index.html`, `style.css`, `app.js`: aplikacja
+- `seed.enc.js`: zaszyfrowane dane z arkusza
+- `tools/`: konwersja .xlsx → JSON i szyfrowanie
+- `sw.js`, `manifest.webmanifest`, `icons/`: tryb offline i instalacja
+
+---
+
+© thenotoriousg. All rights reserved. Credits: The Real World · Prof Adam · Crypto Investing Campus
